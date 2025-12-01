@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Submit Problem Statement | International Hackathon 2026</title>
+  <meta name="description" content="Submit your problem statement for the 48-Hour International Hackathon 2026 at NHCE" />
+  <meta name="theme-color" content="#2b2d73" />
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <a class="skip-link" href="#main-content">Skip to content</a>
+
+  <header class="site-header" role="banner" aria-label="College branding">
+    <div class="header-inner">
+      <div class="logo left">
+        <img src="Silver_Jubille_Logo-removebg-preview.png" alt="Silver Jubilee — 25 years logo" />
+      </div>
+      <div class="logo center">
+        <img src="NHCE Blue.png" alt="New Horizon College of Engineering logo" />
+      </div>
+      <div class="logo right">
+        <img src="hi.png" alt="Institution's Innovation Council logo" />
+      </div>
+    </div>
+
+    <nav class="site-nav" role="navigation" aria-label="Primary">
+      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="nav-menu" aria-label="Toggle navigation">
+        <span class="bar"></span><span class="bar"></span><span class="bar"></span>
+      </button>
+      <ul id="nav-menu" class="nav-menu">
+        <li><a class="nav-link" href="index.html">Back to Home</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main id="main-content" class="section upload-page" role="main">
+    <div class="container">
+      <div class="upload-header">
+        <h1>Submit Problem Statement</h1>
+        <p class="subtitle">We invite ministries, government organizations, and industry partners to submit problem statements for the 48-Hour International Hackathon 2026</p>
+      </div>
+
+      <div class="form-container">
+        <form id="ps-upload-form" class="ps-form">
+          <div class="form-group">
+            <label for="org-name">Organization Name <span class="required">*</span></label>
+            <input 
+              type="text" 
+              id="org-name" 
+              name="orgName" 
+              required 
+              placeholder="Enter your organization name"
+              aria-required="true"
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="ps-title">Problem Statement Title <span class="required">*</span></label>
+            <input 
+              type="text" 
+              id="ps-title" 
+              name="psTitle" 
+              required 
+              placeholder="Enter a concise title for the problem statement"
+              aria-required="true"
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="ps-description">Problem Statement Description <span class="required">*</span></label>
+            <textarea 
+              id="ps-description" 
+              name="psDescription" 
+              required 
+              rows="10"
+              placeholder="Provide a detailed description of the problem statement including:&#10;• Background and context&#10;• Problem definition&#10;• Expected outcomes&#10;• Technical requirements (if any)&#10;• Impact and relevance"
+              aria-required="true"
+            ></textarea>
+            <small class="form-hint">Please provide comprehensive details to help participants understand the problem clearly</small>
+          </div>
+
+          <div class="form-group">
+            <label for="contact-email">Contact Email <span class="required">*</span></label>
+            <input 
+              type="email" 
+              id="contact-email" 
+              name="contactEmail" 
+              required 
+              placeholder="your.email@organization.com"
+              aria-required="true"
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="domain">Preferred Domain</label>
+            <select id="domain" name="domain">
+              <option value="">Select a domain (optional)</option>
+              <option value="state-national">State and National Oriented Problem Statements</option>
+              <option value="ai-ml">AI/ML/DL, Generative AI</option>
+              <option value="healthcare">Healthcare Technology & Bioinformatics</option>
+              <option value="cybersecurity">Cyber Security, Digital Forensics & Blockchain</option>
+              <option value="iot">IoT, Smart Devices & Defence Technologies</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="file-upload">Attach Supporting Documents (Optional)</label>
+            <div class="file-upload-wrapper">
+              <input 
+                type="file" 
+                id="file-upload" 
+                name="fileUpload" 
+                accept=".pdf,.pptx,.ppt,.doc,.docx"
+                multiple
+                aria-describedby="file-help"
+              />
+              <label for="file-upload" class="file-upload-label">
+                <span class="upload-icon">📎</span>
+                <span class="upload-text">Choose files or drag here</span>
+              </label>
+              <div id="file-list" class="file-list"></div>
+            </div>
+            <small id="file-help" class="form-hint">Accepted formats: PDF, PPTX, DOC, DOCX (Max 10MB per file)</small>
+          </div>
+
+          <div class="form-actions">
+            <button type="submit" class="btn primary large">Submit Problem Statement</button>
+            <button type="reset" class="btn outline">Clear Form</button>
+          </div>
+        </form>
+
+        <div id="success-message" class="success-message" style="display: none;">
+          <div class="success-icon">✓</div>
+          <h3>Thank You!</h3>
+          <p>Your problem statement has been submitted successfully. We will review it and get back to you soon.</p>
+          <button class="btn outline" onclick="resetForm()">Submit Another</button>
+        </div>
+      </div>
+
+      <div class="info-box">
+        <h3>Submission Guidelines</h3>
+        <ul>
+          <li>All fields marked with <span class="required">*</span> are mandatory</li>
+          <li>Please ensure your problem statement is clear, well-defined, and relevant to the hackathon domains</li>
+          <li>Problem statements should be challenging yet achievable within the 48-hour timeframe</li>
+          <li>You will receive a confirmation email once your submission is reviewed</li>
+          <li>For any queries, please contact us at hackathon@nhce.edu.in</li>
+        </ul>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer" role="contentinfo">
+    <div class="container">
+      <p>&copy; 2026 New Horizon College of Engineering — 48-Hour International Hackathon</p>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+  <script>
+    const fileInput = document.getElementById('file-upload');
+    const fileList = document.getElementById('file-list');
+    const fileUploadLabel = document.querySelector('.file-upload-label');
+    let selectedFiles = [];
+
+    // File upload handling
+    fileInput.addEventListener('change', function(e) {
+      handleFiles(e.target.files);
+    });
+
+    // Drag and drop functionality
+    fileUploadLabel.addEventListener('dragover', function(e) {
+      e.preventDefault();
+      fileUploadLabel.classList.add('drag-over');
+    });
+
+    fileUploadLabel.addEventListener('dragleave', function(e) {
+      e.preventDefault();
+      fileUploadLabel.classList.remove('drag-over');
+    });
+
+    fileUploadLabel.addEventListener('drop', function(e) {
+      e.preventDefault();
+      fileUploadLabel.classList.remove('drag-over');
+      handleFiles(e.dataTransfer.files);
+    });
+
+    function handleFiles(files) {
+      const maxSize = 10 * 1024 * 1024; // 10MB
+      const allowedTypes = [
+        'application/pdf',
+        'application/vnd.ms-powerpoint',
+        'application/vnd.openxmlformats-officedocument.presentationml.presentation',
+        'application/msword',
+        'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+      ];
+      const allowedExtensions = ['.pdf', '.ppt', '.pptx', '.doc', '.docx'];
+
+      Array.from(files).forEach(file => {
+        // Check file type
+        const fileExtension = '.' + file.name.split('.').pop().toLowerCase();
+        if (!allowedTypes.includes(file.type) && !allowedExtensions.includes(fileExtension)) {
+          alert(`File "${file.name}" is not a valid format. Please upload PDF, PPTX, DOC, or DOCX files only.`);
+          return;
+        }
+
+        // Check file size
+        if (file.size > maxSize) {
+          alert(`File "${file.name}" is too large. Maximum file size is 10MB.`);
+          return;
+        }
+
+        // Add to selected files if not already added
+        if (!selectedFiles.find(f => f.name === file.name && f.size === file.size)) {
+          selectedFiles.push(file);
+        }
+      });
+
+      displayFiles();
+    }
+
+    function displayFiles() {
+      fileList.innerHTML = '';
+      
+      if (selectedFiles.length === 0) {
+        return;
+      }
+
+      selectedFiles.forEach((file, index) => {
+        const fileItem = document.createElement('div');
+        fileItem.className = 'file-item';
+        
+        const fileIcon = getFileIcon(file.name);
+        const fileSize = formatFileSize(file.size);
+        
+        fileItem.innerHTML = `
+          <span class="file-icon">${fileIcon}</span>
+          <span class="file-name">${file.name}</span>
+          <span class="file-size">${fileSize}</span>
+          <button type="button" class="file-remove" onclick="removeFile(${index})" aria-label="Remove ${file.name}">×</button>
+        `;
+        
+        fileList.appendChild(fileItem);
+      });
+    }
+
+    function removeFile(index) {
+      selectedFiles.splice(index, 1);
+      displayFiles();
+    }
+
+    function getFileIcon(filename) {
+      const ext = filename.split('.').pop().toLowerCase();
+      const icons = {
+        'pdf': '📄',
+        'ppt': '📊',
+        'pptx': '📊',
+        'doc': '📝',
+        'docx': '📝'
+      };
+      return icons[ext] || '📎';
+    }
+
+    function formatFileSize(bytes) {
+      if (bytes === 0) return '0 Bytes';
+      const k = 1024;
+      const sizes = ['Bytes', 'KB', 'MB'];
+      const i = Math.floor(Math.log(bytes) / Math.log(k));
+      return Math.round(bytes / Math.pow(k, i) * 100) / 100 + ' ' + sizes[i];
+    }
+
+    // Form submission handler
+    document.getElementById('ps-upload-form').addEventListener('submit', function(e) {
+      e.preventDefault();
+      
+      // Get form data
+      const formData = new FormData();
+      formData.append('orgName', document.getElementById('org-name').value);
+      formData.append('psTitle', document.getElementById('ps-title').value);
+      formData.append('psDescription', document.getElementById('ps-description').value);
+      formData.append('contactEmail', document.getElementById('contact-email').value);
+      formData.append('domain', document.getElementById('domain').value);
+      formData.append('timestamp', new Date().toISOString());
+      
+      // Add files to form data
+      selectedFiles.forEach((file, index) => {
+        formData.append(`file${index}`, file);
+      });
+      
+      // Here you would typically send the data to your backend
+      console.log('Form submitted with files:', {
+        orgName: document.getElementById('org-name').value,
+        psTitle: document.getElementById('ps-title').value,
+        psDescription: document.getElementById('ps-description').value,
+        contactEmail: document.getElementById('contact-email').value,
+        domain: document.getElementById('domain').value,
+        files: selectedFiles.map(f => ({ name: f.name, size: f.size, type: f.type }))
+      });
+      
+      // Show success message
+      document.querySelector('.form-container form').style.display = 'none';
+      document.getElementById('success-message').style.display = 'block';
+      
+      // Scroll to success message
+      document.getElementById('success-message').scrollIntoView({ behavior: 'smooth' });
+    });
+    
+    function resetForm() {
+      document.getElementById('ps-upload-form').reset();
+      selectedFiles = [];
+      displayFiles();
+      document.querySelector('.form-container form').style.display = 'block';
+      document.getElementById('success-message').style.display = 'none';
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  </script>
+</body>
+</html>
