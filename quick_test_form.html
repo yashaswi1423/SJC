@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quick Form Test</title>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 600px; margin: 2rem auto; padding: 2rem; }
+        .form-group { margin: 1rem 0; }
+        label { display: block; margin-bottom: 0.5rem; font-weight: bold; }
+        input, textarea, select { width: 100%; padding: 0.5rem; border: 1px solid #ccc; border-radius: 4px; }
+        button { background: #007bff; color: white; padding: 1rem 2rem; border: none; border-radius: 4px; cursor: pointer; }
+        .result { margin: 1rem 0; padding: 1rem; border-radius: 4px; }
+        .success { background: #d4edda; color: #155724; }
+        .error { background: #f8d7da; color: #721c24; }
+        .phone-container { display: flex; gap: 0.5rem; }
+        .country-select { flex: 0 0 150px; }
+        .phone-input { flex: 1; }
+    </style>
+</head>
+<body>
+    <h1>🚀 Quick Form Test</h1>
+    <p>Simple test to verify form submission is working.</p>
+
+    <form id="quickForm" enctype="multipart/form-data">
+        <div class="form-group">
+            <label for="orgName">Organization Name *</label>
+            <input type="text" id="orgName" name="orgName" value="Quick Test Org" required>
+        </div>
+
+        <div class="form-group">
+            <label for="spocName">SPOC Name *</label>
+            <input type="text" id="spocName" name="spocName" value="Test User" required>
+        </div>
+
+        <div class="form-group">
+            <label for="spocContact">Contact Number *</label>
+            <div class="phone-container">
+                <select id="countryCode" class="country-select" required>
+                    <option value="+91" selected>🇮🇳 India (+91)</option>
+                    <option value="+1">🇺🇸 USA (+1)</option>
+                </select>
+                <input type="tel" id="phoneNumber" class="phone-input" value="9876543210" required>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="contactEmail">Email *</label>
+            <input type="email" id="contactEmail" name="contactEmail" value="test@example.com" required>
+        </div>
+
+        <div class="form-group">
+            <label for="psTitle">Problem Statement Title *</label>
+            <input type="text" id="psTitle" name="psTitle" value="Quick Test Problem" required>
+        </div>
+
+        <div class="form-group">
+            <label for="psDescription">Description *</label>
+            <textarea id="psDescription" name="psDescription" required>This is a quick test submission to verify the form is working.</textarea>
+        </div>
+
+        <div class="form-group">
+            <label for="logo">Logo * (Select any small image)</label>
+            <input type="file" id="logo" name="logo" accept=".jpg,.jpeg,.png,.pdf" required>
+        </div>
+
+        <div class="form-group">
+            <label for="documents">Supporting Documents (Optional)</label>
+            <input type="file" id="documents" name="documents" accept=".pdf,.doc,.docx" multiple>
+        </div>
+
+        <button type="submit">🚀 Quick Test Submit</button>
+    </form>
+
+    <div id="result"></div>
+
+    <script>
+        document.getElementById('quickForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const resultDiv = document.getElementById('result');
+            const submitBtn = e.target.querySelector('button');
+            const originalText = submitBtn.textContent;
+            
+            // Show loading
+            submitBtn.textContent = '⏳ Testing...';
+            submitBtn.disabled = true;
+            resultDiv.innerHTML = '<div class="result">🔄 Submitting...</div>';
+            
+            try {
+                const formData = new FormData();
+                
+                // Add form fields
+                formData.append('orgName', document.getElementById('orgName').value);
+                formData.append('spocName', document.getElementById('spocName').value);
+                
+                // Combine country code and phone
+                const countryCode = document.getElementById('countryCode').value;
+                const phoneNumber = document.getElementById('phoneNumber').value;
+                formData.append('spocContact', countryCode + ' ' + phoneNumber);
+                
+                formData.append('contactEmail', document.getElementById('contactEmail').value);
+                formData.append('psTitle', document.getElementById('psTitle').value);
+                formData.append('psDescription', document.getElementById('psDescription').value);
+                
+                // Add logo
+                const logoFile = document.getElementById('logo').files[0];
+                if (logoFile) {
+                    formData.append('logo', logoFile);
+                }
+                
+                // Add documents
+                const documentFiles = document.getElementById('documents').files;
+                const isNodeJS = window.location.port === '3000';
+                
+                for (let i = 0; i < documentFiles.length; i++) {
+                    if (isNodeJS) {
+                        formData.append('documents', documentFiles[i]);
+                    } else {
+                        formData.append('documents[]', documentFiles[i]);
+                    }
+                }
+                
+                // Determine endpoint
+                const endpoint = isNodeJS ? '/api/submit_problem_statement' : 'api/submit_problem_statement.php';
+                
+                console.log('Submitting to:', endpoint);
+                console.log('Server type:', isNodeJS ? 'Node.js' : 'PHP');
+                
+                const response = await fetch(endpoint, {
+                    method: 'POST',
+                    body: formData
+                });
+                
+                console.log('Response status:', response.status);
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                }
+                
+                const data = await response.json();
+                console.log('Response data:', data);
+                
+                if (data.success) {
+                    resultDiv.innerHTML = `
+                        <div class="result success">
+                            <h3>✅ Success!</h3>
+                            <p><strong>Submission ID:</strong> ${data.submissionId}</p>
+                            <p><strong>Documents:</strong> ${data.documentsProcessed || 0} processed</p>
+                            <p>Form submission is working correctly!</p>
+                            <p><a href="xampp_admin_dashboard.php" target="_blank">→ Check Admin Panel</a></p>
+                        </div>
+                    `;
+                } else {
+                    throw new Error(data.message || 'Submission failed');
+                }
+                
+            } catch (error) {
+                console.error('Error:', error);
+                resultDiv.innerHTML = `
+                    <div class="result error">
+                        <h3>❌ Error</h3>
+                        <p>${error.message}</p>
+                        <p>Check browser console for details.</p>
+                    </div>
+                `;
+            } finally {
+                submitBtn.textContent = originalText;
+                submitBtn.disabled = false;
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Access - Smart Horizon Hackathon</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #2b2d73, #c12d6b);
+            margin: 0;
+            padding: 20px;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .admin-container {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            max-width: 400px;
+            width: 100%;
+        }
+        h1 {
+            color: #2b2d73;
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        .admin-links {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        .admin-link {
+            display: block;
+            padding: 1rem;
+            background: #f8f9fa;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            text-decoration: none;
+            color: #2b2d73;
+            font-weight: 600;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+        .admin-link:hover {
+            background: #2b2d73;
+            color: white;
+            transform: translateY(-2px);
+        }
+        .back-link {
+            text-align: center;
+            margin-top: 2rem;
+        }
+        .back-link a {
+            color: #6c757d;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="admin-container">
+        <h1>🔐 Admin Access</h1>
+        <div class="admin-links">
+            <a href="admin_panel.html" class="admin-link">
+                📋 Admin Panel (Working System)
+            </a>
+            <a href="test_admin_view.html" class="admin-link">
+                🧪 Test Admin View
+            </a>
+            <a href="test_submission_flow.html" class="admin-link">
+                🔄 Test Submission Flow
+            </a>
+        </div>
+        <div class="back-link">
+            <a href="index.html">← Back to Home</a>
+        </div>
+    </div>
+</body>
+</html>

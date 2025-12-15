@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Document Upload</title>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 600px; margin: 2rem auto; padding: 2rem; }
+        .form-group { margin: 1rem 0; }
+        label { display: block; margin-bottom: 0.5rem; font-weight: bold; }
+        input, textarea { width: 100%; padding: 0.5rem; border: 1px solid #ccc; border-radius: 4px; }
+        button { background: #007bff; color: white; padding: 1rem 2rem; border: none; border-radius: 4px; cursor: pointer; }
+        .result { margin: 1rem 0; padding: 1rem; border-radius: 4px; }
+        .success { background: #d4edda; color: #155724; }
+        .error { background: #f8d7da; color: #721c24; }
+    </style>
+</head>
+<body>
+    <h1>🧪 Test Document Upload</h1>
+    <p>This form tests if supporting documents are being uploaded and saved correctly.</p>
+
+    <form id="testForm" enctype="multipart/form-data">
+        <div class="form-group">
+            <label for="orgName">Organization Name *</label>
+            <input type="text" id="orgName" name="orgName" value="Test Org for Documents" required>
+        </div>
+
+        <div class="form-group">
+            <label for="spocName">SPOC Name *</label>
+            <input type="text" id="spocName" name="spocName" value="Test User" required>
+        </div>
+
+        <div class="form-group">
+            <label for="spocContact">SPOC Contact *</label>
+            <input type="tel" id="spocContact" name="spocContact" value="+91 9999999999" required>
+        </div>
+
+        <div class="form-group">
+            <label for="contactEmail">Contact Email *</label>
+            <input type="email" id="contactEmail" name="contactEmail" value="test@example.com" required>
+        </div>
+
+        <div class="form-group">
+            <label for="psTitle">Problem Statement Title *</label>
+            <input type="text" id="psTitle" name="psTitle" value="Test Problem with Documents" required>
+        </div>
+
+        <div class="form-group">
+            <label for="psDescription">Description *</label>
+            <textarea id="psDescription" name="psDescription" required>This is a test submission to verify document upload functionality.</textarea>
+        </div>
+
+        <div class="form-group">
+            <label for="logo">Logo * (Required - select any small image/PDF)</label>
+            <input type="file" id="logo" name="logo" accept=".jpg,.jpeg,.png,.pdf" required>
+        </div>
+
+        <div class="form-group">
+            <label for="documents">Supporting Documents * (Select multiple files to test)</label>
+            <input type="file" id="documents" name="documents" accept=".pdf,.doc,.docx,.ppt,.pptx" multiple>
+            <small>Select 2-3 small files to test document upload</small>
+        </div>
+
+        <button type="submit">🚀 Test Upload with Documents</button>
+    </form>
+
+    <div id="result"></div>
+
+    <script>
+        document.getElementById('testForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const resultDiv = document.getElementById('result');
+            const submitBtn = e.target.querySelector('button');
+            
+            // Show loading
+            submitBtn.textContent = '⏳ Testing...';
+            submitBtn.disabled = true;
+            resultDiv.innerHTML = '<div class="result">🔄 Uploading test data with documents...</div>';
+            
+            try {
+                const formData = new FormData();
+                
+                // Add form fields
+                formData.append('orgName', document.getElementById('orgName').value);
+                formData.append('spocName', document.getElementById('spocName').value);
+                formData.append('spocContact', document.getElementById('spocContact').value);
+                formData.append('contactEmail', document.getElementById('contactEmail').value);
+                formData.append('psTitle', document.getElementById('psTitle').value);
+                formData.append('psDescription', document.getElementById('psDescription').value);
+                
+                // Add logo
+                const logoFile = document.getElementById('logo').files[0];
+                if (logoFile) {
+                    formData.append('logo', logoFile);
+                }
+                
+                // Add documents
+                const documentFiles = document.getElementById('documents').files;
+                console.log('Number of documents selected:', documentFiles.length);
+                
+                for (let i = 0; i < documentFiles.length; i++) {
+                    formData.append('documents', documentFiles[i]);
+                    console.log('Added document:', documentFiles[i].name);
+                }
+                
+                console.log('Submitting to: api/submit_problem_statement.php');
+                
+                const response = await fetch('api/submit_problem_statement.php', {
+                    method: 'POST',
+                    body: formData
+                });
+                
+                console.log('Response status:', response.status);
+                
+                const responseText = await response.text();
+                console.log('Raw response:', responseText);
+                
+                let data;
+                try {
+                    data = JSON.parse(responseText);
+                } catch (parseError) {
+                    throw new Error(`Invalid JSON response: ${responseText.substring(0, 200)}...`);
+                }
+                
+                if (data.success) {
+                    resultDiv.innerHTML = `
+                        <div class="result success">
+                            <h3>✅ Success!</h3>
+                            <p><strong>Message:</strong> ${data.message}</p>
+                            <p><strong>Submission ID:</strong> ${data.submissionId}</p>
+                            <p><strong>Documents uploaded:</strong> ${documentFiles.length}</p>
+                            <p>Now check the admin panel to see if documents appear!</p>
+                            <p><a href="xampp_admin_dashboard.php" target="_blank">→ Open Admin Panel</a></p>
+                            <p><a href="debug_documents.php" target="_blank">→ Debug Documents</a></p>
+                        </div>
+                    `;
+                } else {
+                    throw new Error(data.message || 'Unknown error');
+                }
+                
+            } catch (error) {
+                console.error('Upload error:', error);
+                resultDiv.innerHTML = `
+                    <div class="result error">
+                        <h3>❌ Error</h3>
+                        <p><strong>Error:</strong> ${error.message}</p>
+                        <p>Check the console for more details.</p>
+                    </div>
+                `;
+            } finally {
+                submitBtn.textContent = '🚀 Test Upload with Documents';
+                submitBtn.disabled = false;
+            }
+        });
+    </script>
+</body>
+</html>
